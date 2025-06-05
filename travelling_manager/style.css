@@ -1,0 +1,479 @@
+body {
+            background: #181c24;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        #budgetSetDiv,
+        #homePage {
+            margin: 48px auto 0 auto;
+            background: #23272f;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+            padding: 32px 28px 36px 28px;
+            display: none;
+        }
+
+        #homePage {
+            width: 60vw;
+        }
+
+        #budgetSetDiv {
+            width: 420px;
+            max-width: 95vw;
+            margin: 64px auto 0 auto;
+            background: #23272f;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(74, 144, 226, 0.18), 0 1.5px 8px rgba(0, 0, 0, 0.10);
+            padding: 36px 32px 32px 32px;
+            display: none;
+            text-align: center;
+            border: 2.5px solid #4a90e2;
+            transition: box-shadow 0.2s, border 0.2s;
+        }
+
+        #budgetSetDiv:hover {
+            box-shadow: 0 12px 36px rgba(74, 144, 226, 0.28), 0 2px 12px rgba(0, 0, 0, 0.13);
+            border-color: #357ab8;
+        }
+
+        #budgetSetDivHeaderText {
+            color: #4a90e2;
+            font-weight: 700;
+            margin-bottom: 18px;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        #budgetSetDivBodyInput {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 1em;
+            border: 1.5px solid #444;
+            background: #23272f;
+            color: #e0e0e0;
+            font-size: 1.15rem;
+            margin-bottom: 16px;
+            transition: border 0.2s;
+        }
+
+        #budgetSetDivBodyInput:focus {
+            border: 2px solid #4a90e2;
+            outline: none;
+            background: #23272f;
+            color: #fff;
+        }
+
+        #budgetSetDivButton {
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 10px;
+            font-size: 1.08rem;
+            font-weight: 600;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.10);
+            margin-top: -1em;
+        }
+
+        #budgetSetDivButton:hover {
+            background: #357ab8;
+        }
+
+        #budgetSetDivErrorText {
+            color: #e24a4a;
+            min-height: 24px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            margin-bottom: 1em;
+        }
+
+        #budgetDisplay {
+            background: linear-gradient(90deg, #4a90e2 0%, #357ab8 100%);
+            border-radius: 12px;
+            padding: 24px 0;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 12px rgba(74, 144, 226, 0.15);
+            text-align: center;
+        }
+
+        #budgetText {
+            color: #fff;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        #container {
+            background: #262b36;
+            border-radius: 14px;
+            padding: 24px 18px 18px 18px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+            width: 57vw;
+            max-width: 90vw;
+            margin: 0 auto;
+        }
+
+        #searchBar {
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        #searchBar input[type="text"] {
+            width: 260px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #23272f;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+
+        #searchBar input[type="text"]:focus {
+            border: 1.5px solid #4a90e2;
+            outline: none;
+        }
+
+        #addEntryBtn {
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.10);
+        }
+
+        #addEntryBtn:hover {
+            background: #357ab8;
+        }
+
+        #tableContainer {
+            background: #23272f;
+            border-radius: 10px;
+            padding: 0;
+            overflow-x: auto;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+            width: 100%;
+        }
+
+        #dataTable {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0;
+            background: transparent;
+        }
+
+        #tableHead th {
+            background: #2e3440;
+            color: #a3b8d8;
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 14px 10px;
+            border-bottom: 2px solid #4a90e2;
+            text-align: left;
+            letter-spacing: 0.5px;
+        }
+
+        #dataTable td {
+            padding: 13px 10px;
+            border-bottom: 1px solid #353b48;
+            color: #e0e0e0;
+            font-size: 1rem;
+            vertical-align: middle;
+        }
+
+        #dataTable tr:last-child td {
+            border-bottom: none;
+        }
+
+        #dataTable tr:hover {
+            background: #283046;
+            transition: background 0.2s;
+        }
+
+        .edit-btn {
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.98rem;
+            margin: 0 2px;
+            transition: background 0.2s;
+        }
+
+        .edit-btn:hover {
+            background: #357ab8;
+        }
+
+        .delete-btn {
+            background: #e24a4a;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.98rem;
+            margin: 0 2px;
+            transition: background 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #b83535;
+        }
+
+        /* Modal Styling */
+        #dataAddModal .modal-content {
+            background: #23272f;
+            color: #e0e0e0;
+            border-radius: 14px;
+            border: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+        }
+
+        #dataAddModal .modal-header {
+            border-bottom: 1px solid #353b48;
+        }
+
+        #dataAddModal .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #4a90e2;
+        }
+
+        #dataAddModal .form-label {
+            color: #a3b8d8;
+            font-weight: 500;
+        }
+
+        #dataAddModal .form-control,
+        #dataAddModal .form-select {
+            background: #23272f;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        #dataAddModal .form-control:focus,
+        #dataAddModal .form-select:focus {
+            border: 1.5px solid #4a90e2;
+            box-shadow: none;
+            background: #23272f;
+            color: #fff;
+        }
+
+        #dataAddModal .form-check-label {
+            color: #e0e0e0;
+            margin-left: 6px;
+        }
+
+        #dataAddModal .btn-primary {
+            background: #4a90e2;
+            border: none;
+        }
+
+        #dataAddModal .btn-primary:hover {
+            background: #357ab8;
+        }
+
+        #dataAddModal .btn-secondary {
+            background: #5c5c5c;
+            border: none;
+        }
+
+        #dataAddModal .btn-secondary:hover {
+            background: #444;
+        }
+
+        #deletionModal .modal-content,
+        #deletedModal .modal-content {
+            background: #23272f;
+            color: #e0e0e0;
+            border-radius: 14px;
+            border: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+        }
+
+        #deletionModal .modal-header,
+        #deletedModal .modal-header {
+            border-bottom: 1px solid #353b48;
+        }
+
+        #deletionModal .modal-title,
+        #deletedModal .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e24a4a;
+        }
+
+        #deletionModal .btn-primary,
+        #deletedModal .btn-primary {
+            background: #e24a4a;
+            border: none;
+        }
+
+        #deletionModal .btn-primary:hover,
+        #deletedModal .btn-primary:hover {
+            background: #b83535;
+        }
+
+        #deletionModal .btn-secondary,
+        #deletedModal .btn-secondary {
+            background: #5c5c5c;
+            border: none;
+        }
+
+        #deletionModal .btn-secondary:hover,
+        #deletedModal .btn-secondary:hover {
+            background: #444;
+        }
+
+        #deletedText {
+            color: #e24a4a;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        #refundedText {
+            color: rgb(1, 218, 1);
+            font-weight: 600;
+        }
+
+        header {
+            width: 100%;
+            text-align: center;
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #4a90e2;
+            background: linear-gradient(90deg, #23272f 0%, #262b36 100%);
+            padding: 28px 0 18px 0;
+            box-shadow: 0 4px 18px rgba(74, 144, 226, 0.10);
+            margin-bottom: 32px;
+            user-select: none;
+        }
+
+        #totalAmountCollected,
+        #amountCollectedFromDeletedEntries {
+            display: inline-block;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            padding: 8px 18px;
+            border-radius: 8px;
+        }
+
+        #totalAmountCollected {
+            color: #4a90e2;
+            float: left;
+        }
+
+        #amountCollectedFromDeletedEntries {
+            color: #e24a4a;
+            float: right;
+            text-align: right;
+        }
+
+        #container::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        #sortRow {
+            margin-top: 8px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 12px;
+        }
+
+        #sortSelect {
+            background: #23272f;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 140px;
+        }
+
+        #sortSelect:focus {
+            border: 1.5px solid #4a90e2;
+            outline: none;
+        }
+
+        #sortBtn {
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 6px 18px;
+            transition: background 0.2s;
+        }
+
+        #sortBtn:hover {
+            background: #357ab8;
+        }
+
+        #budgetModal .modal-content {
+            background: #20232a;
+            color: #e0e0e0;
+            border: 2px solid #4a90e2;
+            box-shadow: 0 8px 32px rgba(74, 144, 226, 0.22), 0 1.5px 8px rgba(0, 0, 0, 0.18);
+        }
+
+        #budgetModal {
+            border-radius: 16px;
+        }
+
+        #budgetModal .modal-header {
+            border-bottom: 1px solid #353b48;
+            background: #23272f;
+        }
+
+        #budgetModal .modal-title {
+            color: #4a90e2;
+            font-weight: 700;
+        }
+
+        #budgetModal .modal-footer {
+            background: #23272f;
+            border-top: 1px solid #353b48;
+        }
+
+        #budgetModal .btn-primary {
+            background: #4a90e2;
+            border: none;
+        }
+
+        #budgetModal .btn-primary:hover {
+            background: #357ab8;
+        }
+
+        #budgetModal .btn-secondary {
+            background: #444;
+            color: #fff;
+            border: none;
+        }
+
+        #budgetModal .btn-secondary:hover {
+            background: #23272f;
+        }
+
+        #budgetModal .modal-dialog {
+            border-radius: 16px;
+            overflow: hidden;
+        }

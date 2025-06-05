@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <style>
+            .res{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 40px;
+                text-align: center;
+                margin: auto;
+            }
+            button {
+                border: 1px solid black;
+                padding: 10px;
+                color: rgb(24, 22, 22);
+                font-weight: bold;
+                width: 200px;
+                margin: 5px;
+                border-radius: 5px;
+            }
+            #wrap{
+                max-height: 100%;
+                max-width: 100%;
+            }
+        </style>
+        <title>Month</title>
+    </head>
+    <body>
+        <div id="wrap">
+        <h1>Month</h1>
+        <div class="input">
+            <label>Enter the month in number: </label>
+            <input id="num1"><br><br>
+        </div>
+        
+        <button id="print-btn" onclick="print()">Print</button>
+        <br><br>
+        <div class="res"><h2 id="res"></h2></div>
+    </div>
+    <script>
+            function print() {
+                let x = parseInt(document.getElementById("num1").value);
+                let ans;
+                switch (x){
+                    case 1:
+                        ans = "January";
+                        break;
+                    case 2:
+                        ans = "Feburary";
+                        break;
+                    case 3:
+                        ans = "March";
+                        break;
+                    case 4:
+                        ans = "April";
+                        break;
+                    case 5:
+                        ans = "May";
+                        break;
+                    case 6:
+                        ans = "June";
+                        break;
+                    case 7:
+                        ans = "July";
+                        break;
+                    case 8:
+                        ans = "August";
+                        break;
+                    case 9:
+                        ans = "September";
+                        break;
+                    case 10:
+                        ans = "October";
+                        break;
+                    case 11:
+                        ans = "November";
+                        break;
+                    case 12:
+                        ans = "December";
+                        break;
+                    default:
+                        ans = "Enter a valid month.";
+                        break;
+                }
+                res.textContent = ans;
+            }
+        </script>
+    </body>
+</html>

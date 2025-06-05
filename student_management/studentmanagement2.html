@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Database</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.dataTables.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg custom-modal-width" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="addStudentModalLabel">Add Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="studentForm">
+                        <div class="form-group row mb-3">
+                            <div class="col">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" required>
+                                <small id="nameError" class="text-danger"></small>
+                            </div>
+                            <div class="col">
+                                <label for="class">Class</label>
+                                <input type="text" class="form-control" id="class" required>
+                                <small id="classError" class="text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <h2 class="text-center">Enter Marks</h2>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <div class="col">
+                                <label for="englishMarks">English</label>
+                                <input type="number" class="form-control" id="englishMarks" required>
+                                <small id="englishError" class="text-danger"></small>
+                            </div>
+                            <div class="col">
+                                <label for="mathsMarks">Maths</label>
+                                <input type="number" class="form-control" id="mathsMarks" required>
+                                <small id="mathsError" class="text-danger"></small>
+                            </div>
+                            <div class="col">
+                                <label for="scienceMarks">Science</label>
+                                <input type="number" class="form-control" id="scienceMarks" required>
+                                <small id="scienceError" class="text-danger"></small>
+                            </div>
+                            <div class="col">
+                                <label for="historyMarks">History</label>
+                                <input type="number" class="form-control" id="historyMarks" required>
+                                <small id="historyError" class="text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-close-modal"
+                                data-bs-dismiss="modal">Close</button>
+                            <button id="dataSubmit" type="submit" class="btn btn-primary btn-add-student">Add
+                                Student</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <header class="header-with-carousel position-relative text-white text-center">
+        <div id="carouselDiv" class="carousel slide header-carousel" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="img1.jpeg" class="d-block w-100 carousel-bg-img" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="img2.jpg" class="d-block w-100 carousel-bg-img" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="img3.jpg" class="d-block w-100 carousel-bg-img" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselDiv" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselDiv" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="header-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+        <div class="header-content position-absolute top-50 start-50 translate-middle w-100">
+            <h1 class="display-3 fw-bold mb-2">Student Database</h1>
+            <p class="lead fw-semibold mb-0">Manage your school records with ease</p>
+        </div>
+    </header>
+    <!--Data Enter Modal-->
+
+
+    <div id="database">
+        <div class="container mt-5">
+            <h2 class="text-center">Student Records</h2>
+            <p class="text-center">Here you can view and manage student records.</p>
+        </div>
+        <h1 id="tablePlaceholder" class="text-center mt-5"></h1>
+        <div id="tableContainer" class="container mt-4">
+            <table id="dataTable"></table>
+            <div id="tableFooter" class="text-center mt-4">
+                <button id="addStudentButton" class="btn btn-success mb-3">Add New Student</button>
+                <label for="filterBy" class="mr-2">Filter by :</label>
+                <select name="filter-by" id="filterBy" class="form-control mb-3">
+                    <option value="">All Classes</option>
+                    <option value="pass">Passed</option>
+                    <option value="fail">Failed</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2025 Student Management System</p>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

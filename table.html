@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        *{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            max-width: 1000px;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            padding: 10px;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        thead tr:first-child th {
+            border-top: none;
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        th {
+            color: rgb(23, 81, 255);
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .row > div {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        tbody{
+            color: #4c6eea;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .full-size {
+            width: 100%;
+        }
+
+        button.btn, #sort-btn, #submit-btn, #exit-btn, #open-form-btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #174aff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .delete-btn{
+            background-color: red;
+        }
+
+        .edit-btn{
+            background-color: yellow;
+            color: black;
+            margin-right: 2px;
+        }
+
+        #exit-btn{
+            background-color: #666666;
+        }
+
+        button.btn:hover, #submit-btn:hover, #open-form-btn:hover {
+            background-color: #003ccc;
+        }
+        
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+        }
+
+        #search-bar {
+            padding: 6px 10px;
+            font-size: 14px;
+            width: 200px;
+        }
+
+        #search-btn {
+            padding: 6px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .bottom-controls {
+            display: flex;
+            align-items: center;
+            align-content: center;
+            align-self: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .bottom-controls label{
+            font-size: 20px;
+            padding: 5px;
+            margin-top: 18px;
+        }
+
+        .bottom-controls select{
+            margin-top: 20px;
+            width: 100px;
+            height: 30px;
+            padding: 2px;
+            margin-left: 2px;
+            font-size: large;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="modal fade" id="inputModal" tabindex="-1" aria-labelledby="inputModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="inputModalLabel">Internship Application</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="input-form">
+        <div class="modal-body">
+          <div class="row">
+            <div><label>First Name:</label><input type="text" id="first-name-input" required></div>
+            <div><label>Last Name:</label><input type="text" id="last-name-input" required></div>
+            <div><label>Age:</label><input type="text" id="age-input" required></div>
+          </div>
+          <div class="row">
+            <label>Address:</label>
+            <input type="text" class="full-size" id="address-input" required>
+          </div>
+          <div class="row">
+            <div>
+                <label>State/Province:</label>
+                <select name ="state-select" id="state-select">
+                    <option value="def" id="def">-- Select City --</option>
+                    <option value="raj" id="raj">Rajasthan</option>
+                    <option value="pun" id="pun">Punjab</option>
+                    <option value="up" id="up">Uttar Pradesh</option>
+                </select>
+                </div>
+                <div>
+                    <label>City:</label>
+                    <select name ="city-select" id="city-select">
+                        <option value="def" id="def">-- Select City --</option>
+                    </select>
+                </div>
+                <div>
+                    <label>ZIP/Postal Code:</label>
+                    <input type="text" id="zip-input" required>
+                </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="exit-btn">Exit</button>
+          <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+    <div class="top-bar">
+        <input type="text" id="search-bar" placeholder="Search..." />
+        <button id="search-btn">🔍</button>
+    </div>
+
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--elements added here-->
+        </tbody>
+    </table>
+    <div class="bottom-controls">
+        <button id="open-form-btn">Enter New Details</button>
+        <label for="sort-by">Sort By:</label>
+        <select name="sort-by" id="sort-by">
+            <option value="name">Name</option>
+            <option value="age">Age</option>
+        </select>
+        <button id="sort-btn">Sort</button>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+    const openFormBtn = document.getElementById('open-form-btn');
+    const popupForm = document.getElementById('popup-form');
+    const overlay = document.getElementById('overlay');
+    const inputForm = document.getElementById('input-form');
+    const exitBtn = document.getElementById('exit-btn');
+    const sortBtn = document.getElementById('sort-btn');
+    const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+
+    function checkAlpha(str){
+        let exp = /^[a-z]+$/;
+        return exp.test(str);
+    }
+
+    function checkNum(str){
+        let exp = /^[0-9]+$/;
+        return exp.test(str);
+    }
+
+    let entries = [];
+
+    openFormBtn.addEventListener('click', () => {
+        popupForm.classList.add('show');
+        overlay.classList.add('show');
+    });
+
+    exitBtn.addEventListener('click', ()=>{
+        popupForm.classList.remove('show');
+        overlay.classList.remove('show');
+    });
+
+    sortBtn.addEventListener('click', () => {
+    const sortBy = document.getElementById('sort-by').value;
+    if (sortBy === 'name') {
+        entries.sort((a, b) => {
+            const nameA = a.name.toUpperCase();
+            const nameB = b.name.toUpperCase();
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+        });
+    } else {
+        entries.sort((a, b) => a.age - b.age);
+    }
+    renderTable(entries);
+});
+
+    const stateToCities = {
+        "raj": ["Jaipur","Jaisalmer","Jodhpur"],
+        "pun": ["Amritsar","Ludhiana","Ambala"],
+        "up": ["Lucknow","Aligarh","Kanpur"]
+    };
+
+    const stateSelect = document.getElementById("state-select");
+    const citySelect = document.getElementById("city-select");
+
+    stateSelect.addEventListener("change", function () {
+        const selectedState = this.value;
+
+        citySelect.innerHTML = '<option value="def" id=def>-- Select City --</option>';
+
+        if (stateToCities[selectedState]) {
+            stateToCities[selectedState].forEach(city => {
+                const option = document.createElement("option");
+                option.id = city;
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        }
+    });
+
+
+        // grab your modal element once
+    const inputModalEl = document.getElementById('inputModal');
+    const inputModal = new bootstrap.Modal(inputModalEl);
+
+    // open the modal
+    document.getElementById('open-form-btn').addEventListener('click', () => {
+        inputModal.show();
+    });
+
+    // Exit button now simply hides the modal (data-bs-dismiss also handles it)
+    document.getElementById('exit-btn').addEventListener('click', () => {
+        inputModal.hide();
+    });
+
+    // On form submit, after validation:
+    inputForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const newEntry = {
+            firstName: document.getElementById('first-name-input').value,
+            lastName: document.getElementById('last-name-input').value,
+            age: document.getElementById('age-input').value,
+            email: document.getElementById('email-input').value.toLowerCase(),
+            address: document.getElementById('address-input').value,
+            phone: document.getElementById('phone-input').value,
+            postal: document.getElementById('zip-input').value,
+            state: document.getElementById('state-select').value,
+            city: document.getElementById('city-select').value
+        };
+
+        let name = (newEntry.firstName + newEntry.lastName).trim().toLowerCase();
+        let flag = false;
+
+        if(newEntry.firstName.length < 3 || newEntry.firstName.length < 3){
+            alert("First and last name must have at least 3 characters each");
+            flag = true;
+        }
+        if(!checkAlpha(name)){
+            alert("First and last name must only contain alphabets");
+            flag = true;
+        }
+        if(!checkNum(newEntry.age)){
+            alert("Age must be a number");
+            flag = true;
+        }
+        if(newEntry.age < 18){
+            alert("Applicant must be at least 18 years old");
+            flag = true;
+        }
+        if(newEntry.phone.length != 10){
+            alert("Phone number must be of 10 digits");
+            flag = true;
+        }
+        if(!checkNum(newEntry.phone)){
+            alert("Phone number must be a number");
+            flag = true;
+        }
+        if(newEntry.address.length < 10){
+            alert("Address must have at least 10 characters");
+            flag = true;
+        }
+        if(entries.some(x =>{return x.phone === newEntry.phone})){
+            alert("Phone number must be unique");
+            flag = true;
+        }
+        if(entries.some(x =>{return x.address === newEntry.address})){
+            alert("Address must be unique");
+            flag = true;
+        }
+        if(entries.some(x =>{return x.email === newEntry.email})){
+            alert("Email must be unique");
+            flag = true;
+        }
+        if(!checkNum(newEntry.postal)){
+            alert("Postal code must be a number");
+            flag = true;
+        }
+        if(newEntry.state === 'def'){
+            alert("Please select a state");
+            flag = true;
+        }
+        if(newEntry.city === 'def'){
+            alert("Please select a city");
+            flag = true;
+        }
+        if(!newEntry.email.endsWith("@gmail.com")){
+            alert("Invalid Email address");
+            flag = true;
+        }
+        if(!flag){
+            entries.push(newEntry);
+            inputForm.reset();
+            popupForm.classList.remove('show');
+            overlay.classList.remove('show');
+            renderTable(entries);
+        }  
+
+        renderTable(entries);
+        inputForm.reset();
+        inputModal.hide();
+    });
+
+    function renderTable(array) {
+        tableBody.innerHTML = '';
+
+        array.forEach((entry, index) => {
+            const row = tableBody.insertRow();
+            row.insertCell(0).textContent = entry.firstName + " " + entry.lastName;
+            row.insertCell(1).textContent = entry.age;
+            row.insertCell(2).textContent = entry.email;
+            row.insertCell(3).textContent = entry.address;
+            row.insertCell(4).textContent = entry.phone;
+
+            const actionCell = row.insertCell(5);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.classList.add('btn', 'delete-btn');
+            deleteBtn.onclick = () => {
+                entries.splice(index, 1);
+                renderTable(entries);
+            };
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Edit';
+            editBtn.classList.add('btn', 'edit-btn');
+            editBtn.onclick = () => {
+                const entry = entries[index];
+
+                document.getElementById('first-name-input').value = entry.firstName;
+                document.getElementById('last-name-input').value = entry.lastName;
+                document.getElementById('age-input').value = entry.age;
+                document.getElementById('email-input').value = entry.email;
+                document.getElementById('address-input').value = entry.address;
+                document.getElementById('phone-input').value = entry.phone;
+                document.getElementById('zip-input').value = entry.postal;
+                document.getElementById('state-select').value = entry.state;
+                document.getElementById('city-select').value = entry.city;
+
+                entries.splice(index, 1);
+                inputModal.show();
+            };
+
+
+            actionCell.appendChild(editBtn);
+            actionCell.appendChild(deleteBtn);
+
+        });
+    }
+
+    document.getElementById('search-btn').addEventListener('click', function () {
+        const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+        const filtered = entries.filter(entry => entry.name.toLowerCase().includes(searchTerm));
+        renderTable(filtered);
+    });
+
+    overlay.addEventListener('click', () => {
+        popupForm.classList.remove('show');
+        overlay.classList.remove('show');
+    });
+
+</script>
+</body>
+</html>

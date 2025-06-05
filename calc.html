@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <style>
+            .res{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 40px;
+                text-align: center;
+                margin: auto;
+            }
+            button {
+                border: 1px solid black;
+                padding: 10px;
+                color: rgb(24, 22, 22);
+                font-weight: bold;
+                width: 200px;
+                margin: 5px;
+                border-radius: 5px;
+            }
+            #wrap{
+                max-height: 100%;
+                max-width: 100%;
+            }
+        </style>
+        <title>Calculator</title>
+    </head>
+    <body>
+        <div id="wrap">
+        <h1>Calculator </h1>
+        <div class="input">
+            <label>Number 1: </label>
+            <input id="num1"><br><br>
+            <label>Number 2: </label>
+            <input id="num2"><br><br>
+        </div>
+        
+        <button id="add-btn" onclick="add()">ADD</button>
+        <button id="sub-btn" onclick="sub()">SUBTRACT</button>
+        <button id="mul-btn" onclick="mul()">MULITPLY</button>
+        <button id="div-btn" onclick="div()">DIVIDE</button>
+        <br><br>
+        <div class="res"><h2 id="res">0</h2></div>
+        </div>
+        <script>
+            function add() {
+                let x = parseInt(document.getElementById("num1").value);
+                let y = parseInt(document.getElementById("num2").value);
+                let ans = x + y;
+                res.textContent = ans;
+            }
+            function sub() {
+                let x = parseInt(document.getElementById("num1").value);
+                let y = parseInt(document.getElementById("num2").value);
+                let ans = x - y;
+                res.textContent = ans;
+            }
+            function mul() {
+                let x = parseInt(document.getElementById("num1").value);
+                let y = parseInt(document.getElementById("num2").value);
+                let ans = x * y;
+                res.textContent = ans;
+            }
+            function div() {
+                let x = parseInt(document.getElementById("num1").value);
+                let y = parseInt(document.getElementById("num2").value);
+                let ans = x / y;
+                res.textContent = ans;
+            }
+        </script>
+    </body>
+</html>

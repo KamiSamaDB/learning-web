@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <style>
+            .res {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 40px;
+                text-align: center;
+                margin: auto;
+            }
+            button {
+                border: 1px solid black;
+                padding: 10px;
+                color: rgb(24, 22, 22);
+                font-weight: bold;
+                width: 200px;
+                margin: 5px;
+                border-radius: 5px;
+            }
+            #wrap{
+                max-height: 100%;
+                max-width: 100%;
+            }
+        </style>
+        <title>Print Even</title>
+    </head>
+    <body>
+        <div id="wrap">
+        <h1>Print Even </h1>
+        <div class="input">
+            <label>Enter number: </label>
+            <input id="num1"><br><br>
+        </div>
+        
+        <button id="print-btn" onclick="print()">Print</button>
+        <br><br>
+        <div class="res"><h2 id="res"></h2></div>
+        </div>
+        <script>
+            function print() {
+                let x = parseInt(document.getElementById("num1").value);
+                for(let i = 1; i <= x; i++){
+                    if(i%2 != 0){
+                        continue;
+                    }
+                    if(i != x && i != x-1){
+                        res.textContent += i +", ";
+                    }else{
+                        res.textContent += i;
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

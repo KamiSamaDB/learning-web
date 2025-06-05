@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <style>
+            .res {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 40px;
+                text-align: center;
+                margin: auto;
+            }
+            button {
+                border: 1px solid black;
+                padding: 10px;
+                color: rgb(24, 22, 22);
+                font-weight: bold;
+                width: 200px;
+                margin: 5px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            #wrap{
+                max-height: 100%;
+                max-width: 100%;
+            }
+        </style>
+        <title>Array Methods</title>
+    </head>
+    <body>
+        <div id="wrap">
+        <h1>Array Methods</h1>
+        <div class="input">
+            <label>Enter data: </label>
+            <input id="data"><br><br>
+        </div>
+        
+        <button id="push-btn" onclick="push()">Push</button>
+        <button id="show-btn" onclick="show()">Display</button>
+        <button id="clear-btn" onclick="clearArray()">Clear</button>
+        <button id="pop-btn" onclick="pop()">Pop</button>
+        <button id="length-btn" onclick="length()">Length</button>
+        <button id="search-btn" onclick="search()">Search</button>
+        <button id="sort-btn" onclick="sort()">Sort</button>
+        <button id="reverse-btn" onclick="reverse()">Reverse</button>
+        <br><br>
+        <div class="res"><h2 id="res"></h2></div>
+        </div>
+        <script>
+            const arr = [];
+            function push() {
+                let input = document.getElementById("data");
+                arr.push(input.value);
+                input.value = "";
+                document.getElementById("res").innerHTML = "";
+            }
+            function pop() {
+                let popped_val = arr.pop();
+                document.getElementById("res").innerHTML = "Popped value: " + popped_val;
+            }
+            function show() {
+                document.getElementById("res").innerHTML = arr;
+            }
+            function sort() {
+                arr.sort();
+                document.getElementById("res").innerHTML = "Sorted Array: " + arr;
+            }
+            function reverse() {
+                arr.reverse();
+                document.getElementById("res").innerHTML = "Reversed Array: " + arr;
+            }
+            function length() {
+                document.getElementById("res").innerHTML = "Length of Array: " + arr.length;
+            }
+            function clearArray() {
+                arr.length = 0;
+                document.getElementById("res").innerHTML = "";
+            }
+            function search() {
+                let input = document.getElementById("data");
+                let ans = arr.findIndex(x => x === input.value) + 1;
+                if(ans == 0){
+                    document.getElementById("res").innerHTML = "Element not Found";
+                }else{
+                    document.getElementById("res").innerHTML = "Element found at position: " + ans;
+                }
+            }
+        </script>
+    </body>
+</html>

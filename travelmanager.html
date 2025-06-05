@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Travel Manager</title>
+
+    <style>
+        body {
+            background-color: #1f1f1f;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        /* Modal Custom Styling */
+        .modal-content {
+            background-color: #2a2a2a;
+            color: #f0f0f0;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-header, .modal-footer {
+            border: none;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background-color: #4a90e2;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #357ab8;
+        }
+
+        .btn-secondary {
+            background-color: #5c5c5c;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #444;
+        }
+
+        .btn-close {
+            filter: invert(1);
+        }
+
+        /* Budget Set Div Styling */
+        #budgetSetDiv {
+            background-color: #2b2b2b;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        #budgetSetDivHeaderText {
+            text-align: center;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        #budgetSetDivBodyInput {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #555;
+            background-color: #1e1e1e;
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        #budgetSetDivBodyInput::placeholder {
+            color: #aaa;
+        }
+
+        #budgetSetDivFooter {
+            text-align: center;
+        }
+
+        #budgetSetDivButton {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        #budgetSetDivButton:hover {
+            background-color: #357ab8;
+        }
+
+        #budgetSetDivErrorText{
+            color: red;
+            font-size: small;
+        }
+
+        /* Home Page Modern Styling */
+        #homePage {
+            display: block;
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            background: #23272f;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+            padding: 32px 28px 36px 28px;
+            transition: box-shadow 0.3s;
+        }
+
+        #budgetDisplay {
+            background: linear-gradient(90deg, #4a90e2 0%, #357ab8 100%);
+            border-radius: 12px;
+            padding: 24px 0;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 12px rgba(74,144,226,0.15);
+            text-align: center;
+        }
+
+        #budgetText {
+            color: #fff;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        #container {
+            background: #262b36;
+            border-radius: 14px;
+            padding: 24px 18px 18px 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+
+        #searchBar {
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        #searchBar input[type="text"] {
+            width: 260px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #23272f;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+
+        #searchBar input[type="text"]:focus {
+            border: 1.5px solid #4a90e2;
+            outline: none;
+        }
+
+        #actionButtons {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 18px;
+            justify-content: flex-end;
+        }
+
+        #actionButtons button {
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(74,144,226,0.10);
+        }
+
+        #actionButtons button:hover {
+            background: #357ab8;
+            box-shadow: 0 4px 16px rgba(74,144,226,0.18);
+        }
+
+        #tableContainer {
+            background: #23272f;
+            border-radius: 10px;
+            padding: 0;
+            overflow-x: auto;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+        }
+
+        #dataTable {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0;
+            background: transparent;
+        }
+
+        #tableHead th {
+            background: #2e3440;
+            color: #a3b8d8;
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 14px 10px;
+            border-bottom: 2px solid #4a90e2;
+            text-align: left;
+            letter-spacing: 0.5px;
+        }
+
+        #dataTable td {
+            padding: 13px 10px;
+            border-bottom: 1px solid #353b48;
+            color: #e0e0e0;
+            font-size: 1rem;
+            vertical-align: middle;
+        }
+
+        #dataTable tr:last-child td {
+            border-bottom: none;
+        }
+
+        #dataTable tr:hover {
+            background: #283046;
+            transition: background 0.2s;
+        }
+
+        #dataTable button, #dataTable .btn {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.98rem;
+            border: none;
+            transition: background 0.2s;
+            margin: 0 2px;
+        }
+
+        #dataTable .edit-btn {
+            background: #4a90e2;
+            color: #fff;
+        }
+
+        #dataTable .edit-btn:hover {
+            background: #357ab8;
+        }
+
+        #dataTable .delete-btn {
+            background: #e24a4a;
+            color: #fff;
+        }
+
+        #dataTable .delete-btn:hover {
+            background: #b83535;
+        }
+
+        #searchInput {
+            width: 80%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #23272f;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        #searchInput:focus {
+            border: 1.5px solid #4a90e2;
+            outline: none;
+        }
+        #addEntryBtn {
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(74,144,226,0.10);
+        }
+
+        #dataAddModal .modal-content {
+            background: #23272f;
+            color: #e0e0e0;
+            border-radius: 14px;
+            border: none;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+        }
+        #dataAddModal .modal-header {
+            border-bottom: 1px solid #353b48;
+        }
+        #dataAddModal .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #4a90e2;
+        }
+        #dataAddModal .form-label {
+            color: #a3b8d8;
+            font-weight: 500;
+        }
+        #dataAddModal .form-control, #dataAddModal .form-select {
+            background: #23272f;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        #dataAddModal .form-control:focus, #dataAddModal .form-select:focus {
+            border: 1.5px solid #4a90e2;
+            box-shadow: none;
+            background: #23272f;
+            color: #fff;
+        }
+        #dataAddModal .form-check-label {
+            color: #e0e0e0;
+            margin-left: 6px;
+        }
+        #dataAddModal .btn-primary {
+            background: #4a90e2;
+            border: none;
+        }
+        #dataAddModal .btn-primary:hover {
+            background: #357ab8;
+        }
+        #dataAddModal .btn-secondary {
+            background: #5c5c5c;
+            border: none;
+        }
+        #dataAddModal .btn-secondary:hover {
+            background: #444;
+        }
+    </style>
+
+</head>
+<body>
+    <!-- Budget Set Modal -->
+    <div class="modal fade" id="budgetModal" tabindex="-1" role="dialog" aria-labelledby="budgetModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Confirm Budget</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div id="modalContainer" class="modal-container">
+                <label id="modalBodyText" class="modal-body-text"></label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="cancelBudgetBtn" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" id="confirmBudgetBtn" class="btn btn-primary">Confirm</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!--Budget Set Div-->
+    <div id="budgetSetDiv">
+        <div id="budgetSetDivHeader">
+            <h2 id="budgetSetDivHeaderText">Please Enter a Budget:</h2>
+        </div>
+        <div id="budgetSetDivBody">
+            <input id="budgetSetDivBodyInput" placeholder="Enter an amount in Rs...">
+        </div>
+        <div id="budgetSetDivError">
+            <h4 id="budgetSetDivErrorText"></h4>
+        </div>
+        <div id="budgetSetDivFooter">
+            <button id="budgetSetDivButton" type="submit">Submit</button>
+        </div>
+    </div>
+
+    <!--Data Add Modal-->
+    <div class="modal fade" id="dataAddModal" tabindex="-1" role="dialog" aria-labelledby="dataAddTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="dataAddTitle">Add Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="nameInput" class="form-label">Name</label>
+                    <input type="text" id="nameInput" class="form-control" placeholder="Enter Name">
+                </div>
+                <div class="col">
+                    <label for="phoneInput" class="form-label">Phone Number</label>
+                    <input type="text" id="phoneInput" class="form-control" placeholder="Enter Phone Number">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="genderSelect" class="form-label">Gender</label>
+                    <select id="genderSelect" class="form-select">
+                        <option value="" disabled selected>-- Select an Option --</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label class="form-label d-block mb-2">Discount Applicable</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="discountRadio" id="discountYes" value="yes">
+                        <label class="form-check-label" for="discountYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="discountRadio" id="discountNo" value="no" checked>
+                        <label class="form-check-label" for="discountNo">No</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="amountInput" class="form-label">Amount Contributed</label>
+                <input type="text" id="amountInput" class="form-control" placeholder="Enter Amount in Rs.">
+            </div>
+            <div class="row mb-3">
+                <h3 class="error-text" id="errorText" style="color: red;"></h3>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="exit-btn">Exit</button>
+            <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+    <!--Home Page-->
+    <div id="homePage">
+        <div id="budgetDisplay">
+            <h1 id="budgetText"></h1>
+        </div>
+        <div id="container">
+            <div id="searchBar" class="mb-3 d-flex justify-content-between align-items-center">
+                <input type="text" id="searchInput" placeholder="Search by Name or Phone Number...">
+                <button id="addEntryBtn" class="btn btn-primary ms-2">Add Entry</button>
+            </div>
+            <div id="tableContainer">
+                <table id="dataTable">
+                    <thead id="tableHead">
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone Number</th>
+                            <th>Amount Contributed</th>
+                            <th>Last Updated</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody> <!-- Added tbody -->
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <p style="color:yellow">If you see this, the page is loading.</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+    let budgetValStr = "";
+    let dataEntries = JSON.parse(localStorage.getItem('dataEntries')) || [];
+
+    function isNum(str) {
+        return /^\d+$/.test(str);
+    }
+
+    function isAlpha(str){
+        return /^[a-zA-Z\s]+$/.test(str);
+    }
+
+    function handleSubmitClick() {
+        budgetValStr = $('#budgetSetDivBodyInput').val().trim();
+        let errorMsg = "";
+
+        if (!isNum(budgetValStr)) {
+            errorMsg = "Please enter a valid number for the budget.";
+        } else if (parseInt(budgetValStr) < 1000) {
+            errorMsg = "Budget must be greater than 1000 Rs.";
+        }
+
+        if (errorMsg) {
+            $('#budgetSetDivErrorText').text(errorMsg);
+        } else {
+            $('#budgetSetDivErrorText').text("");
+            const modal = new bootstrap.Modal(document.getElementById('budgetModal'));
+            modal.show();
+        }
+    }
+
+    function handleConfirmClick() {
+        localStorage.setItem('budgetAmount', budgetValStr);
+        $('#budgetSetDiv').hide();
+        const modalEl = document.getElementById('budgetModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        modalInstance.hide();
+    }
+
+    function renderTable(array) {
+        const tableBody = document.querySelector('#dataTable tbody');
+        tableBody.innerHTML = '';
+        if (array.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="6" class="text-center">No entries found.</td></tr>';
+            return;
+        }
+        array.forEach((entry, index) => {
+            const row = tableBody.insertRow();
+            row.insertCell(0).textContent = entry.name || '';
+            row.insertCell(1).textContent = entry.phone || '';
+            row.insertCell(2).textContent = entry.amount ? `Rs.${entry.amount}` : '';
+            // Format date and time
+            let dateStr = '', timeStr = '';
+            if (entry.time) {
+                let dateObj = new Date(entry.time);
+                if (!isNaN(dateObj.getTime())) {
+                    dateStr = dateObj.toLocaleDateString();
+                    timeStr = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+            }
+            row.insertCell(3).innerHTML = `<span style="font-weight:600;color:#4a90e2;">${dateStr}</span><br><span style="font-size:0.95em;color:#a3b8d8;">${timeStr}</span>`;
+            // Edit button
+            const editCell = row.insertCell(4);
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Edit';
+            editBtn.classList.add('btn', 'edit-btn');
+            editBtn.onclick = () => {
+                $('#nameInput').val(entry.name);
+                $('#phoneInput').val(entry.phone);
+                $('#genderSelect').val(entry.gender);
+                $('#amountInput').val(entry.amount);
+                $('input[name="discountRadio"][value="' + entry.discount + '"]').prop('checked', true);
+                const inputModal = new bootstrap.Modal(document.getElementById('dataAddModal'));
+                array.splice(index, 1);
+                inputModal.show();
+            };
+            editCell.appendChild(editBtn);
+            // Delete button
+            const deleteCell = row.insertCell(5);
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.classList.add('btn', 'delete-btn');
+            deleteBtn.onclick = () => {
+                array.splice(index, 1);
+                localStorage.setItem('dataEntries', JSON.stringify(array));
+                renderTable(array);
+            };
+            deleteCell.appendChild(deleteBtn);
+        });
+    }
+
+    $(document).ready(function () {
+        console.log("Document ready");
+
+        const storedBudget = localStorage.getItem('budgetAmount');
+        dataEntries = JSON.parse(localStorage.getItem('dataEntries')) || [];
+
+        if (storedBudget) {
+            $('#budgetSetDiv').hide();
+            $('#homePage').show();
+            $('#budgetText').text(`Budget: Rs. ${storedBudget}`);
+            renderTable(dataEntries);
+        } else {
+            $('#homePage').hide();
+            $('#budgetSetDiv').show();
+        }
+
+        $('#budgetSetDivButton').click(handleSubmitClick);
+        $('#confirmBudgetBtn').click(handleConfirmClick);
+
+        $('#addEntryBtn').click(() => {
+            $('#errorText').text('');
+            $('#nameInput').val('');
+            $('#phoneInput').val('');
+            $('#genderSelect').val('');
+            $('#amountInput').val('');
+            $('input[name="discountRadio"][value="no"]').prop('checked', true);
+            new bootstrap.Modal(document.getElementById('dataAddModal')).show();
+        });
+
+        $('#submit-btn').click(() => {
+            let name = $('#nameInput').val().trim();
+            let phone = $('#phoneInput').val().trim();
+            let gender = $('#genderSelect').val();
+            let discount = $('input[name="discountRadio"]:checked').val();
+            let amount = $('#amountInput').val().trim();
+
+            if (!name || !phone || !gender || !amount || !isNum(amount)) {
+                $('#errorText').text('Please fill all fields with valid values.');
+                return;
+            }
+            $('#errorText').text('');
+
+            const newEntry = {
+                name,
+                phone,
+                gender,
+                discount,
+                amount: parseInt(amount),
+                time: new Date().toISOString()
+            };
+
+            dataEntries.push(newEntry);
+            localStorage.setItem('dataEntries', JSON.stringify(dataEntries));
+            renderTable(dataEntries);
+
+            bootstrap.Modal.getInstance(document.getElementById('dataAddModal')).hide();
+        });
+
+        $('#searchInput').on('input', function() {
+            const query = $(this).val().toLowerCase();
+            const filtered = dataEntries.filter(e => 
+                e.name.toLowerCase().includes(query) || e.phone.includes(query));
+            renderTable(filtered);
+        });
+    });
+
+
+
+</script>
+
+
+</body>
+</html>
