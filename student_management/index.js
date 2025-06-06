@@ -134,6 +134,34 @@ $(document).ready(function () {
         $('#addStudentModal').modal('show');
     });
 
+    $.ajax({
+        url: 'https://jsonplaceholder.typicode.com/posts/', // API endpoint
+        method: 'GET', // HTTP method
+        success: function (response) {
+            console.log(response);debugger // Handle successful response
+        },
+        error: function (xhr, status, error) {
+            console.error('AJAX Error:', status, error); // Handle errors
+        }
+    });
+
+    // $.ajax({
+    //     url: 'https://jsonplaceholder.typicode.com/posts',
+    //     method: 'POST',
+    //     contentType: 'application/json',
+    //     data: JSON.stringify({
+    //         title: 'foo',
+    //         body: 'bar',
+    //         userId: 1
+    //     }),
+    //     success: function (response) {
+    //         console.log('Post created:', response);
+    //     },
+    //     error: function (xhr, status, error) {
+    //         console.error('AJAX Error:', status, error);
+    //     }
+    // });
+
     $('#addStudentButton').click(function () { 
         if(editIndex !== -1) {
             editIndex = -1;
