@@ -1,0 +1,191 @@
+.exam-container {
+  max-width: 750px;
+  margin: 48px auto;
+  background: #23272b;
+  border-radius: 18px;
+  box-shadow: 0 6px 32px #0008;
+  padding: 40px 32px 32px 32px;
+  animation: fadeInExam 0.7s;
+}
+
+@keyframes fadeInExam {
+  from { opacity: 0; transform: translateY(32px) scale(0.97);}
+  to { opacity: 1; transform: translateY(0) scale(1);}
+}
+
+.exam-container h2 {
+  color: #00bcd4;
+  margin-bottom: 28px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.exam-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.exam-question-block {
+  background: #181a1b;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0004;
+  padding: 24px 20px 18px 20px;
+  transition: box-shadow 0.2s, background 0.2s;
+  animation: fadeInUpExam 0.5s;
+}
+
+@keyframes fadeInUpExam {
+  from { opacity: 0; transform: translateY(24px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.exam-question-block strong {
+  color: #00bcd4;
+  font-size: 1.12rem;
+  letter-spacing: 0.5px;
+}
+
+.exam-options {
+  margin-top: 14px;
+  padding-left: 20px;
+}
+
+.exam-options li {
+  margin-bottom: 10px;
+  font-size: 1.08rem;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  padding: 8px 16px 8px 40px;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  border: 2px solid transparent;
+}
+
+.exam-options li:hover,
+.exam-options li:focus-within {
+  background: #222c2f;
+  box-shadow: 0 2px 8px #00bcd455;
+}
+
+.exam-options li.selected {
+  background: #00bcd4;
+  color: #0d2243;
+  box-shadow: 0 2px 12px #00bcd455;
+  border: 2px solid #00bcd4;
+}
+
+li::marker{
+    color: rgb(177, 177, 177) !important;
+}
+
+.exam-options li:focus {
+  border: 2px solid #00bcd4;
+}
+
+.exam-submit-btn {
+  background: linear-gradient(90deg, #00bcd4 60%, #0097a7 100%);
+  color: #181a1b;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 0;
+  font-size: 1.18rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 18px;
+  width: 100%;
+  box-shadow: 0 2px 12px #00bcd455;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.exam-submit-btn:hover {
+  background: linear-gradient(90deg, #0097a7 60%, #00bcd4 100%);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.exam-review-score {
+  color: #00e676;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.exam-review-block {
+  background: #181a1b;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0004;
+  padding: 20px 18px 14px 18px;
+  margin-bottom: 18px;
+  animation: fadeInUpExam 0.5s;
+}
+
+.exam-review-block strong {
+  color: #00bcd4;
+}
+
+.exam-review-options {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.exam-review-options li {
+  margin-bottom: 7px;
+  font-size: 1.05rem;
+  border-radius: 5px;
+  padding: 3px 8px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.exam-review-options li.correct {
+  background: #1b2e1b;
+  color: #00e676;
+}
+
+.exam-review-options li.incorrect {
+  background: #2e1b1b;
+  color: #ff5252;
+}
+
+.exam-review-options li.selected {
+  border: 1.5px solid #00bcd4;
+}
+
+.exam-go-home-btn {
+  background: #00bcd4;
+  color: #181a1b;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.exam-go-home-btn:hover {
+  background: #0097a7;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.option-value {
+  transition: color 0.2s, font-weight 0.2s;
+}
+
+.exam-options li .option-value.selected {
+  color: #0d2243;
+  font-weight: 600;
+}
+
+/* For review mode, you can use: */
+.exam-review-options li .option-value.correct {
+  color: #00e676;
+  font-weight: 700;
+}
+
+.exam-review-options li .option-value.incorrect {
+  color: #ff5252;
+  font-weight: 700;
+}

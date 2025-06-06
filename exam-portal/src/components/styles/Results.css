@@ -1,0 +1,117 @@
+.results-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #23272b;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #0006;
+  padding: 32px 24px;
+}
+
+.results-container h2 {
+  color: #00bcd4;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.results-table {
+    
+  width: 100%;
+  border-collapse: collapse;
+  background: #23272b;
+  color: #f1f1f1;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px #0004;
+  margin-bottom: 32px;
+}
+
+.results-table th, .results-table td {
+  border: 1px solid #333;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.results-table th {
+  background: #181a1b;
+  color: #00bcd4;
+  font-weight: 600;
+}
+
+.results-table tr:nth-child(even) {
+  background: #202325;
+}
+
+.results-table button {
+  background: #00bcd4;
+  color: #181a1b;
+  border: none;
+  border-radius: 4px;
+  padding: 7px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.results-table button:hover {
+  background: #0097a7;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.review-section {
+  background: #23272b;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px #0004;
+  padding: 24px 18px;
+  margin-bottom: 24px;
+}
+
+.review-section h3 {
+  color: #00bcd4;
+  margin-bottom: 18px;
+}
+
+.review-section ol {
+  padding-left: 24px;
+}
+
+.review-section li {
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+  transition: color 0.2s;
+}
+
+.review-section li[style*="color: green"] {
+  background: #1b2e1b;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.review-section li[style*="color: red"] {
+  background: #2e1b1b;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.review-section button {
+  margin-top: 18px;
+  background: #00bcd4;
+  color: #181a1b;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.review-section button:hover {
+  background: #0097a7;
+}
+
+.results-table th,
+.results-table td {
+  border: 1px solid #333;
+  padding: 12px 8px;
+  text-align: center;
+  vertical-align: middle;
+}

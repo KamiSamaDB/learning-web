@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './styles/Exam.css';
 
 // Fisher-Yates shuffle
 function shuffleArray(array) {
@@ -79,42 +80,93 @@ function Exam() {
     };
 
     if (alreadyAttempted) {
+        // Find this user's result
+        const username = localStorage.getItem('username');
+        const results = JSON.parse(localStorage.getItem('results')) || [];
+        const userResult = results.find(r => r.username === username);
+
+        if (userResult && userResult.answers) {
+            // Show review
+            return (
+                <div className="exam-container">
+                    <h2>Exam Attempt Review</h2>
+                    <div className="exam-review-score">Your Score: {userResult.marks} / {userResult.answers.length}</div>
+                    <hr />
+                    <h3 style={{ color: "#00bcd4" }}>Review Your Answers:</h3>
+                    {userResult.answers.map((q, idx) => (
+                        <div key={idx} className="exam-review-block">
+                            <div><strong>Q{idx + 1}: {q.question}</strong></div>
+                            <ol className="exam-review-options" type="A">
+                                {q.options.map((opt, oIdx) => {
+                                    let liClass = "";
+                                    if (q.selectedIndex === oIdx && oIdx === q.correctIndex) {
+                                        liClass = "correct selected";
+                                    } else if (q.selectedIndex === oIdx && oIdx !== q.correctIndex) {
+                                        liClass = "incorrect selected";
+                                    } else if (q.correctIndex === oIdx) {
+                                        liClass = "correct";
+                                    }
+                                    return (
+                                        <li key={oIdx} className={liClass}>
+                                            <span
+                                                className={
+                                                    q.selectedIndex === oIdx
+                                                        ? "option-value selected"
+                                                        : "option-value"
+                                                }
+                                            >
+                                                {opt}
+                                            </span>
+                                            {q.selectedIndex === oIdx && oIdx === q.correctIndex && ' (Your answer, Correct)'}
+                                            {q.selectedIndex === oIdx && oIdx !== q.correctIndex && ' (Your answer)'}
+                                            {q.correctIndex === oIdx && q.selectedIndex !== oIdx && ' (Correct answer)'}
+                                        </li>
+                                    );
+                                })}
+                            </ol>
+                        </div>
+                    ))}
+                    <button className="exam-go-home-btn" onClick={() => navigate('/')}>Go Home</button>
+                </div>
+            );
+        }
+
+        // Fallback if no review data
         return (
-            <div style={{ margin: 40 }}>
+            <div className="exam-container">
                 <h2>Exam Already Attempted</h2>
                 <p>You have already attempted the exam. You cannot attempt it again.</p>
-                <button onClick={() => navigate('/')}>Go Home</button>
+                <button className="exam-go-home-btn" onClick={() => navigate('/')}>Go Home</button>
             </div>
         );
     }
 
     if (questions.length === 0) {
-        return <div style={{ margin: 40 }}>No questions available.</div>;
+        return <div className="exam-container">No questions available.</div>;
     }
 
     if (submitted && submittedData) {
         return (
-            <div style={{ margin: 40 }}>
+            <div className="exam-container">
                 <h2>Exam Submitted!</h2>
-                <p>Your Score: {score} / {questions.length}</p>
+                <div className="exam-review-score">Your Score: {score} / {questions.length}</div>
                 <hr />
-                <h3>Review Your Answers:</h3>
+                <h3 style={{ color: "#00bcd4" }}>Review Your Answers:</h3>
                 {submittedData.map((q, idx) => (
-                    <div key={idx} style={{ marginBottom: 24 }}>
+                    <div key={idx} className="exam-review-block">
                         <div><strong>Q{idx + 1}: {q.question}</strong></div>
-                        <ol type="A">
+                        <ol className="exam-review-options" type="A">
                             {q.options.map((opt, oIdx) => {
-                                // Determine color
-                                let style = {};
+                                let liClass = "";
                                 if (q.selectedIndex === oIdx && oIdx === q.correctIndex) {
-                                    style = { color: 'green', fontWeight: 'bold' };
+                                    liClass = "correct selected";
                                 } else if (q.selectedIndex === oIdx && oIdx !== q.correctIndex) {
-                                    style = { color: 'red', fontWeight: 'bold' };
+                                    liClass = "incorrect selected";
                                 } else if (q.correctIndex === oIdx) {
-                                    style = { color: 'green', fontWeight: 'bold' };
+                                    liClass = "correct";
                                 }
                                 return (
-                                    <li key={oIdx} style={style}>
+                                    <li key={oIdx} className={liClass}>
                                         {opt}
                                         {q.selectedIndex === oIdx && oIdx === q.correctIndex && ' (Your answer, Correct)'}
                                         {q.selectedIndex === oIdx && oIdx !== q.correctIndex && ' (Your answer)'}
@@ -125,38 +177,45 @@ function Exam() {
                         </ol>
                     </div>
                 ))}
-                <button onClick={() => navigate('/')}>Go Home</button>
+                <button className="exam-go-home-btn" onClick={() => navigate('/')}>Go Home</button>
             </div>
         );
     }
 
     return (
-        <div style={{ maxWidth: 700, margin: '40px auto' }}>
+        <div className="exam-container">
             <h2>Exam</h2>
-            <form onSubmit={handleSubmit}>
+            <form className="exam-form" onSubmit={handleSubmit}>
                 {questions.map((q, idx) => (
-                    <div key={idx} style={{ marginBottom: 20 }}>
+                    <div key={idx} className="exam-question-block">
                         <div><strong>Q{idx + 1}: {q.question}</strong></div>
-                        <ol type="A">
+                        <ol className="exam-options" type="A">
                             {q.options.map((opt, oIdx) => (
-                                <li key={oIdx}>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name={`q${idx}`}
-                                            value={oIdx}
-                                            checked={answers[idx] === oIdx}
-                                            onChange={() => handleChange(idx, oIdx)}
-                                            required
-                                        />
+                                <li
+                                    key={oIdx}
+                                    className={answers[idx] === oIdx ? "selected" : ""}
+                                    onClick={() => handleChange(idx, oIdx)}
+                                    tabIndex={0}
+                                    onKeyPress={e => {
+                                        if (e.key === " " || e.key === "Enter") handleChange(idx, oIdx);
+                                    }}
+                                    style={{ userSelect: "none" }}
+                                >
+                                    <span
+                                        className={
+                                            answers[idx] === oIdx
+                                                ? "option-value selected"
+                                                : "option-value"
+                                        }
+                                    >
                                         {opt}
-                                    </label>
+                                    </span>
                                 </li>
                             ))}
                         </ol>
                     </div>
                 ))}
-                <button type="submit">Submit Exam</button>
+                <button className="exam-submit-btn" type="submit">Submit Exam</button>
             </form>
         </div>
     );

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './styles/Results.css';
 
 function Results() {
   const [results, setResults] = useState([]);
@@ -12,7 +13,7 @@ function Results() {
   if (reviewIdx !== null && results[reviewIdx]) {
     const review = results[reviewIdx];
     return (
-      <div style={{ maxWidth: 700, margin: '40px auto' }}>
+      <div className="review-section results-container" style={{ maxWidth: 700, margin: '40px auto' }}>
         <h2>Review Attempt: {review.username}</h2>
         <p>
           <b>Score:</b> {review.marks}<br />
@@ -60,7 +61,7 @@ function Results() {
       {results.length === 0 ? (
         <p>No results found.</p>
       ) : (
-        <table border="1" cellPadding="8" style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <table className="results-table" border="1" cellPadding="8" style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
               <th>Username</th>
