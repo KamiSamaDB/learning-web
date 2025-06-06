@@ -1,0 +1,89 @@
+.login-container {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  background: #23272b;
+  padding: 40px 32px 32px 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #0006;
+  min-width: 320px;
+  max-width: 90vw;
+  text-align: center;
+  animation: fadeIn 0.7s;
+}
+
+.login-card h2 {
+  color: #00bcd4;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+
+.login-card button {
+  background: #00bcd4;
+  color: #181a1b;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 28px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 8px 8px 0 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px #0003;
+}
+
+.login-card button:hover {
+  background: #0097a7;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.login-card input[type="text"],
+.login-card input[type="password"] {
+  background: #181a1b;
+  color: #f1f1f1;
+  border: 1.5px solid #333;
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin: 8px 0;
+  width: 80%;
+  font-size: 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.login-card input[type="text"]:focus,
+.login-card input[type="password"]:focus {
+  border: 1.5px solid #00bcd4;
+  box-shadow: 0 0 0 2px #00bcd455;
+}
+
+.login-card form {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeInUp 0.5s;
+}
+
+.login-card .error {
+  color: #ff5252;
+  margin-top: 8px;
+  font-size: 0.98rem;
+  min-height: 24px;
+  transition: color 0.2s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.96);}
+  to { opacity: 1; transform: scale(1);}
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px);}
+  to { opacity: 1; transform: translateY(0);}
+}
