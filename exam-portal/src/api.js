@@ -1,3 +1,3 @@
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://exam-portal-api.vercel.app/";
 
 export default API_BASE;
