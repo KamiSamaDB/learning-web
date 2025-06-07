@@ -20,9 +20,11 @@ function Exam() {
     const [score, setScore] = useState(0);
     const [alreadyAttempted, setAlreadyAttempted] = useState(false);
     const [submittedData, setSubmittedData] = useState(null);
+    const [userResult, setUserResult] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Fetch questions from API
         fetch(`${API_BASE}/questions`)
             .then(res => res.json())
             .then(qs => {
@@ -32,11 +34,18 @@ function Exam() {
                 setAnswers(Array(Math.min(10, shuffled.length)).fill(null));
             });
 
-        // Check if user already attempted
+        // Check if user already attempted by querying results API
         const username = localStorage.getItem('username');
-        const results = JSON.parse(localStorage.getItem('results')) || [];
-        if (username && results.some(r => r.username === username)) {
-            setAlreadyAttempted(true);
+        if (username) {
+            fetch(`${API_BASE}/results`)
+                .then(res => res.json())
+                .then(results => {
+                    const found = results.find(r => r.username === username);
+                    if (found) {
+                        setAlreadyAttempted(true);
+                        setUserResult(found);
+                    }
+                });
         }
     }, []);
 
@@ -70,9 +79,9 @@ function Exam() {
         setSubmitted(true);
         setSubmittedData(answerDetails);
 
-        // Save result in localStorage
+        // Save result in backend
         const username = localStorage.getItem('username') || 'Unknown';
-        const res = await fetch(`${API_BASE}/results`, {
+        await fetch(`${API_BASE}/results`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -82,15 +91,9 @@ function Exam() {
                 answers: answerDetails
             })
         });
-        // Optionally handle response
     };
 
     if (alreadyAttempted) {
-        // Find this user's result
-        const username = localStorage.getItem('username');
-        const results = JSON.parse(localStorage.getItem('results')) || [];
-        const userResult = results.find(r => r.username === username);
-
         if (userResult && userResult.answers) {
             // Show review
             return (
