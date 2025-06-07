@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import API_BASE from '../api';
 import './styles/Results.css';
 
 function Results() {
@@ -6,8 +7,9 @@ function Results() {
   const [reviewIdx, setReviewIdx] = useState(null);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('results')) || [];
-    setResults(stored);
+    fetch(`${API_BASE}/results`)
+      .then(res => res.json())
+      .then(setResults);
   }, []);
 
   if (reviewIdx !== null && results[reviewIdx]) {

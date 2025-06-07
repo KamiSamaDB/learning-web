@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_BASE from '../api';
 import './styles/Exam.css';
 
 // Fisher-Yates shuffle
@@ -22,13 +23,14 @@ function Exam() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const stored = JSON.parse(localStorage.getItem('questions')) || [];
-        // Shuffle all questions first
-        const shuffledAll = shuffleArray(stored);
-        // Take up to 10 questions
-        const selected = shuffledAll.slice(0, Math.min(10, shuffledAll.length));
-        setQuestions(selected);
-        setAnswers(Array(selected.length).fill(null));
+        fetch(`${API_BASE}/questions`)
+            .then(res => res.json())
+            .then(qs => {
+                // Shuffle and select up to 10
+                const shuffled = qs.sort(() => Math.random() - 0.5);
+                setQuestions(shuffled.slice(0, Math.min(10, shuffled.length)));
+                setAnswers(Array(Math.min(10, shuffled.length)).fill(null));
+            });
 
         // Check if user already attempted
         const username = localStorage.getItem('username');
@@ -44,7 +46,8 @@ function Exam() {
         setAnswers(updated);
     };
 
-    const handleSubmit = (e) => {
+    // On submit, POST result to API
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let marks = 0;
         const answerDetails = questions.map((q, idx) => {
@@ -69,14 +72,17 @@ function Exam() {
 
         // Save result in localStorage
         const username = localStorage.getItem('username') || 'Unknown';
-        const results = JSON.parse(localStorage.getItem('results')) || [];
-        results.push({
-            username,
-            marks,
-            date: new Date().toLocaleString(),
-            answers: answerDetails
+        const res = await fetch(`${API_BASE}/results`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username,
+                marks,
+                date: new Date().toLocaleString(),
+                answers: answerDetails
+            })
         });
-        localStorage.setItem('results', JSON.stringify(results));
+        // Optionally handle response
     };
 
     if (alreadyAttempted) {

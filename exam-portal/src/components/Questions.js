@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import API_BASE from '../api';
 import './styles/Questions.css';
 
 function Questions() {
@@ -11,43 +12,46 @@ function Questions() {
   const [editOptions, setEditOptions] = useState(['', '', '', '']);
   const [editCorrect, setEditCorrect] = useState(0);
 
+  // Fetch questions from API
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('questions')) || [];
-    setQuestions(stored);
+    fetch(`${API_BASE}/questions`)
+      .then(res => res.json())
+      .then(setQuestions);
   }, []);
 
-  const saveQuestions = (updated) => {
-    setQuestions(updated);
-    localStorage.setItem('questions', JSON.stringify(updated));
-  };
-
-  const handleAdd = (e) => {
+  // Add question
+  const handleAdd = async (e) => {
     e.preventDefault();
     if (
       newQuestion.trim() &&
       newOptions.every(opt => opt.trim()) &&
       newCorrect >= 0 && newCorrect < 4
     ) {
-      const updated = [
-        ...questions,
-        {
+      const res = await fetch(`${API_BASE}/questions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           question: newQuestion.trim(),
           options: newOptions.map(opt => opt.trim()),
           correctIndex: newCorrect
-        }
-      ];
-      saveQuestions(updated);
+        })
+      });
+      const added = await res.json();
+      setQuestions(qs => [...qs, added]);
       setNewQuestion('');
       setNewOptions(['', '', '', '']);
       setNewCorrect(0);
     }
   };
 
-  const handleDelete = (idx) => {
-    const updated = questions.filter((_, i) => i !== idx);
-    saveQuestions(updated);
+  // Delete question
+  const handleDelete = async (idx) => {
+    const id = questions[idx]._id;
+    await fetch(`${API_BASE}/questions/${id}`, { method: 'DELETE' });
+    setQuestions(qs => qs.filter((_, i) => i !== idx));
   };
 
+  // Edit question
   const handleEdit = (idx) => {
     setEditIndex(idx);
     setEditQuestion(questions[idx].question);
@@ -55,27 +59,20 @@ function Questions() {
     setEditCorrect(questions[idx].correctIndex);
   };
 
-  const handleEditSave = (idx) => {
-    if (
-      editQuestion.trim() &&
-      editOptions.every(opt => opt.trim()) &&
-      editCorrect >= 0 && editCorrect < 4
-    ) {
-      const updated = questions.map((q, i) =>
-        i === idx
-          ? {
-              question: editQuestion.trim(),
-              options: editOptions.map(opt => opt.trim()),
-              correctIndex: editCorrect
-            }
-          : q
-      );
-      saveQuestions(updated);
-      setEditIndex(null);
-      setEditQuestion('');
-      setEditOptions(['', '', '', '']);
-      setEditCorrect(0);
-    }
+  const handleEditSave = async (idx) => {
+    const id = questions[idx]._id;
+    const res = await fetch(`${API_BASE}/questions/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question: editQuestion.trim(),
+        options: editOptions.map(opt => opt.trim()),
+        correctIndex: editCorrect
+      })
+    });
+    const updated = await res.json();
+    setQuestions(qs => qs.map((q, i) => i === idx ? updated : q));
+    setEditIndex(null);
   };
 
   return (
