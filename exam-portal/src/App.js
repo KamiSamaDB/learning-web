@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import logo from './logo.svg';
+import logo from './components/images/logo.png';
 import './App.css';
 import Login from './components/Login';
 import RequireAuth from './components/RequireAuth';
@@ -67,18 +67,20 @@ if (!localStorage.getItem('questions')) {
 }
 
 function App() {
+  const [storedRole, setStoredRole] = React.useState(localStorage.getItem('role'));
+
   return (
     <Router>
       <Header />
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setStoredRole={setStoredRole} />} />
         <Route
           path="/"
           element={
             <RequireAuth>
               <div className="App">
                 <header className="App-header">
-                  <img src={logo} className="App-logo" alt="logo" />
+                  <img src={logo} alt="logo" />
                   <h1 style={{ color: "#00bcd4", marginBottom: 16 }}>Welcome to the Exam Portal</h1>
                   <p style={{ fontSize: "1.2rem", marginBottom: 32 }}>
                     Take online exams, manage questions, and view results in a modern, secure portal.
@@ -92,11 +94,17 @@ function App() {
                     </Link>
                   </div>
                   <p style={{ marginTop: 32, color: "#888" }}>
-                    {localStorage.getItem('role') === 'admin'
+                    {storedRole === 'admin'
                       ? "You are logged in as Admin. Use the navigation above to manage questions and results."
                       : localStorage.getItem('username')
                         ? `Good luck, ${localStorage.getItem('username')}!`
                         : "Please login to get started."}
+
+                    {/* {localStorage.getItem('role') === 'admin'
+                      ? "You are logged in as Admin. Use the navigation above to manage questions and results."
+                      : localStorage.getItem('username')
+                        ? `Good luck, ${localStorage.getItem('username')}!`
+                        : "Please login to get started."} */}
                   </p>
                 </header>
               </div>

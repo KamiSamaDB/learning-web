@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './styles/Questions.css';
 
 function Questions() {
   const [questions, setQuestions] = useState([]);
@@ -78,22 +79,21 @@ function Questions() {
   };
 
   return (
-    <div style={{ maxWidth: 700, margin: '40px auto' }}>
+    <div className="questions-container">
       <h2>Manage MCQ Questions</h2>
-      <form onSubmit={handleAdd} style={{ marginBottom: 20, border: '1px solid #ccc', padding: 16 }}>
+      <form className="questions-form" onSubmit={handleAdd}>
         <div>
           <input
             type="text"
             placeholder="Enter question"
             value={newQuestion}
             onChange={e => setNewQuestion(e.target.value)}
-            style={{ width: '90%' }}
             required
           />
         </div>
         <div style={{ marginTop: 10 }}>
           {newOptions.map((opt, i) => (
-            <div key={i} style={{ marginBottom: 5 }}>
+            <div className="option-row" key={i}>
               <input
                 type="text"
                 placeholder={`Option ${i + 1}`}
@@ -104,38 +104,33 @@ function Questions() {
                   setNewOptions(opts);
                 }}
                 required
-                style={{ width: '70%' }}
               />
-              <label style={{ marginLeft: 10 }}>
-                <input
-                  type="radio"
-                  name="newCorrect"
-                  checked={newCorrect === i}
-                  onChange={() => setNewCorrect(i)}
-                  required
-                />
-                Correct
-              </label>
+              <button
+                type="button"
+                className={`correct-btn${newCorrect === i ? ' selected' : ''}`}
+                onClick={() => setNewCorrect(i)}
+              >
+                {newCorrect === i ? 'Correct' : 'Mark as Correct'}
+              </button>
             </div>
           ))}
         </div>
-        <button type="submit" style={{ marginTop: 10 }}>Add Question</button>
+        <button type="submit">Add Question</button>
       </form>
-      <ul>
+      <ul className="questions-list">
         {questions.map((q, idx) => (
-          <li key={idx} style={{ marginBottom: 20, borderBottom: '1px solid #eee', paddingBottom: 10 }}>
+          <li key={idx} className={editIndex === idx ? "editing" : ""}>
             {editIndex === idx ? (
               <div>
                 <input
                   type="text"
                   value={editQuestion}
                   onChange={e => setEditQuestion(e.target.value)}
-                  style={{ width: '90%' }}
                   required
                 />
                 <div style={{ marginTop: 10 }}>
                   {editOptions.map((opt, i) => (
-                    <div key={i} style={{ marginBottom: 5 }}>
+                    <div className="option-row" key={i}>
                       <input
                         type="text"
                         value={opt}
@@ -145,36 +140,34 @@ function Questions() {
                           setEditOptions(opts);
                         }}
                         required
-                        style={{ width: '70%' }}
                       />
-                      <label style={{ marginLeft: 10 }}>
-                        <input
-                          type="radio"
-                          name="editCorrect"
-                          checked={editCorrect === i}
-                          onChange={() => setEditCorrect(i)}
-                          required
-                        />
-                        Correct
-                      </label>
+                      <button
+                        type="button"
+                        className={`correct-btn${editCorrect === i ? ' selected' : ''}`}
+                        onClick={() => setEditCorrect(i)}
+                      >
+                        {editCorrect === i ? 'Correct' : 'Mark as Correct'}
+                      </button>
                     </div>
                   ))}
                 </div>
-                <button onClick={() => handleEditSave(idx)} style={{ marginRight: 5, marginTop: 5 }}>Save</button>
-                <button onClick={() => setEditIndex(null)} style={{ marginTop: 5 }}>Cancel</button>
+                <button className="save-btn" onClick={() => handleEditSave(idx)} style={{ marginRight: 5, marginTop: 5 }}>Save</button>
+                <button className="cancel-btn" onClick={() => setEditIndex(null)} style={{ marginTop: 5 }}>Cancel</button>
               </div>
             ) : (
               <div>
                 <strong>{q.question}</strong>
                 <ol type="A">
                   {q.options.map((opt, i) => (
-                    <li key={i} style={{ color: q.correctIndex === i ? 'green' : undefined }}>
-                      {opt} {q.correctIndex === i && <b>(Correct)</b>}
+                    <li key={i}>
+                      <span className={`option-value${q.correctIndex === i ? ' correct' : ''}`}>
+                        {opt} {q.correctIndex === i && <b>(Correct)</b>}
+                      </span>
                     </li>
                   ))}
                 </ol>
-                <button onClick={() => handleEdit(idx)} style={{ marginRight: 5 }}>Edit</button>
-                <button onClick={() => handleDelete(idx)}>Delete</button>
+                <button className="edit-btn" onClick={() => handleEdit(idx)} style={{ marginRight: 5 }}>Edit</button>
+                <button className="delete-btn" onClick={() => handleDelete(idx)}>Delete</button>
               </div>
             )}
           </li>

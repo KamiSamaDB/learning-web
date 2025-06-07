@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/Login.css';
 
-function Login() {
+function Login({setStoredRole}) {
     const [loggedInAs, setLoggedInAs] = useState(null);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -40,6 +40,7 @@ function Login() {
         if (username.trim()) {
             localStorage.setItem('role', 'user');
             localStorage.setItem('username', username.trim());
+            setStoredRole('user');
             setLoggedInAs('user');
             navigate('/exam');
         }
@@ -49,6 +50,7 @@ function Login() {
         e.preventDefault();
         if (username === 'admin' && password === 'admin@123') {
             localStorage.setItem('role', 'admin');
+            setStoredRole('admin');
             setLoggedInAs('admin');
             setAdminError('');
             navigate('/admin');

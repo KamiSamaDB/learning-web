@@ -1,0 +1,68 @@
+/* Make the nav bar blend with the dark theme */
+nav {
+  background: #23272b;
+  border-bottom: 2px solid #00bcd4;
+  box-shadow: 0 2px 12px #0006;
+  padding: 0 0 4px 0;
+  margin-bottom: 32px;
+}
+
+/* Bootstrap nav-tabs overrides for dark mode */
+.nav-tabs {
+  border-bottom: 2px solid #00bcd4;
+  background: #23272b;
+}
+
+.nav-tabs .nav-link {
+  color: #f1f1f1;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+  font-size: 1.08rem;
+  transition: color 0.2s, border-bottom 0.2s, background 0.2s;
+  padding: 12px 24px;
+}
+
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:focus {
+  color: #00bcd4;
+  background: #181a1b;
+  border-bottom: 2px solid #00bcd4;
+}
+
+.nav-tabs .nav-link.active {
+  color: #00bcd4;
+  background: #181a1b;
+  border-bottom: 2.5px solid #00bcd4;
+  font-weight: 700;
+}
+
+.nav-tabs .nav-link.disabled {
+  color: #888 !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: default;
+}
+
+.btn-danger {
+  background: #ff5252;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 4px;
+  margin-left: 8px;
+  transition: background 0.2s;
+}
+
+.btn-danger:hover {
+  background: #d32f2f;
+}
+
+@media (max-width: 600px) {
+  .nav-tabs .nav-link {
+    padding: 10px 10px;
+    font-size: 1rem;
+  }
+}
