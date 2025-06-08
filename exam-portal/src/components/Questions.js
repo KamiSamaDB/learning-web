@@ -17,12 +17,15 @@ function Questions() {
 
   // Fetch questions from API
   useEffect(() => {
+    setLoading(true);
+    setLoadingText('Loading Questions...');
     fetch(`${API_BASE}/questions`)
       .then(res => res.json())
       .then(setQuestions)
       .finally(() => setLoading(false));
-  }, []);
-  if (loading) return <Loading text={ loadingText }/>;
+  }, []); // <-- Only runs once on mount
+
+  if (loading) return <Loading text={loadingText} />;
 
   // Add question
   const handleAdd = async (e) => {
@@ -48,8 +51,9 @@ function Questions() {
       setNewQuestion('');
       setNewOptions(['', '', '', '']);
       setNewCorrect(0);
-      setLoadingText('Loading Questions...');
     }
+    setLoading(false);
+    setLoadingText('Loading Questions...');
   };
 
   // Delete question
@@ -59,18 +63,16 @@ function Questions() {
     const id = questions[idx]._id;
     await fetch(`${API_BASE}/questions/${id}`, { method: 'DELETE' });
     setQuestions(qs => qs.filter((_, i) => i !== idx));
+    setLoading(false);
     setLoadingText('Loading Questions...');
   };
 
   // Edit question
   const handleEdit = (idx) => {
-    setLoading(true);
-    setLoadingText('Preparing Edit...');
     setEditIndex(idx);
     setEditQuestion(questions[idx].question);
     setEditOptions([...questions[idx].options]);
     setEditCorrect(questions[idx].correctIndex);
-    setLoadingText('Loading Questions...');
   };
 
   const handleEditSave = async (idx) => {
@@ -89,6 +91,7 @@ function Questions() {
     const updated = await res.json();
     setQuestions(qs => qs.map((q, i) => i === idx ? updated : q));
     setEditIndex(null);
+    setLoading(false);
     setLoadingText('Loading Questions...');
   };
 
