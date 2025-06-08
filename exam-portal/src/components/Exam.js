@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API_BASE from '../api';
 import './styles/Exam.css';
+import Loading from './Loading';
 
 // Fisher-Yates shuffle
 function shuffleArray(array) {
@@ -21,6 +22,7 @@ function Exam() {
     const [alreadyAttempted, setAlreadyAttempted] = useState(false);
     const [submittedData, setSubmittedData] = useState(null);
     const [userResult, setUserResult] = useState(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,7 +34,9 @@ function Exam() {
                 const shuffled = qs.sort(() => Math.random() - 0.5);
                 setQuestions(shuffled.slice(0, Math.min(10, shuffled.length)));
                 setAnswers(Array(Math.min(10, shuffled.length)).fill(null));
-            });
+            })
+            .finally(() => setLoading(false));
+            
 
         // Check if user already attempted by querying results API
         const username = localStorage.getItem('username');
@@ -48,6 +52,7 @@ function Exam() {
                 });
         }
     }, []);
+    if (loading) return <Loading text="Loading Questions..."/>;
 
     const handleChange = (qIdx, optIdx) => {
         const updated = [...answers];

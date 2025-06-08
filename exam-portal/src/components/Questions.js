@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API_BASE from '../api';
 import './styles/Questions.css';
+import Loading from './Loading';
 
 function Questions() {
   const [questions, setQuestions] = useState([]);
@@ -11,17 +12,23 @@ function Questions() {
   const [editQuestion, setEditQuestion] = useState('');
   const [editOptions, setEditOptions] = useState(['', '', '', '']);
   const [editCorrect, setEditCorrect] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [loadingText, setLoadingText] = useState('Loading Questions...');
 
   // Fetch questions from API
   useEffect(() => {
     fetch(`${API_BASE}/questions`)
       .then(res => res.json())
-      .then(setQuestions);
+      .then(setQuestions)
+      .finally(() => setLoading(false));
   }, []);
+  if (loading) return <Loading text={ loadingText }/>;
 
   // Add question
   const handleAdd = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setLoadingText('Adding Question...');
     if (
       newQuestion.trim() &&
       newOptions.every(opt => opt.trim()) &&
@@ -41,25 +48,34 @@ function Questions() {
       setNewQuestion('');
       setNewOptions(['', '', '', '']);
       setNewCorrect(0);
+      setLoadingText('Loading Questions...');
     }
   };
 
   // Delete question
   const handleDelete = async (idx) => {
+    setLoading(true);
+    setLoadingText('Deleting Question...');
     const id = questions[idx]._id;
     await fetch(`${API_BASE}/questions/${id}`, { method: 'DELETE' });
     setQuestions(qs => qs.filter((_, i) => i !== idx));
+    setLoadingText('Loading Questions...');
   };
 
   // Edit question
   const handleEdit = (idx) => {
+    setLoading(true);
+    setLoadingText('Preparing Edit...');
     setEditIndex(idx);
     setEditQuestion(questions[idx].question);
     setEditOptions([...questions[idx].options]);
     setEditCorrect(questions[idx].correctIndex);
+    setLoadingText('Loading Questions...');
   };
 
   const handleEditSave = async (idx) => {
+    setLoading(true);
+    setLoadingText('Saving Changes...');
     const id = questions[idx]._id;
     const res = await fetch(`${API_BASE}/questions/${id}`, {
       method: 'PUT',
@@ -73,6 +89,7 @@ function Questions() {
     const updated = await res.json();
     setQuestions(qs => qs.map((q, i) => i === idx ? updated : q));
     setEditIndex(null);
+    setLoadingText('Loading Questions...');
   };
 
   return (
