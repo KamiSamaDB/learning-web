@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import API_BASE from '../api';
 import './styles/Results.css';
+import Loading from './Loading';
 
 function Results() {
   const [results, setResults] = useState([]);
   const [reviewIdx, setReviewIdx] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${API_BASE}/results`)
       .then(res => res.json())
-      .then(setResults);
+      .then(setResults)
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) return <Loading text="Loading Results..."/>;
 
   if (reviewIdx !== null && results[reviewIdx]) {
     const review = results[reviewIdx];
