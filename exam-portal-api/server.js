@@ -22,14 +22,3 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/users', userRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/results', resultRoutes);
-
-const PORT = process.env.PORT || 5000;
-
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('MongoDB connected successfully');
-    // app.listen(PORT, () => {
-    //   console.log(`Server is running on http://localhost:${PORT}`);
-    // });
-  })
-  .catch(err => console.error('MongoDB connection error:', err));
