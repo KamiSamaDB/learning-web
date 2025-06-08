@@ -3,9 +3,9 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import userRoutes from './routes/users.js';
-import questionRoutes from './routes/questions.js';
-import resultRoutes from './routes/results.js';
+import userRoutes from './api/users.js';
+import questionRoutes from './api/questions.js';
+import resultRoutes from './api/results.js';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger.js';
